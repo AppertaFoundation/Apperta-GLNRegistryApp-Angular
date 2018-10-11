@@ -1,0 +1,1 @@
+# Apperta-GLNRegistryApp-Angular
