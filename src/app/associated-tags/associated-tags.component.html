@@ -1,0 +1,70 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div *ngIf="(_messagesService.questions$ | async)?.length === 0">
+  <div class="btn-group btn-block" *ngIf="searchMode && !(loading$ | async)">            
+    <button class="btn btn-default" style="background-color: #0A1B37;" (click)="toggleSearch()">
+      <!-- <p class="return">Return to associations for GLN '{{(gln$ | async)?.OwnGln + " - " + (gln$ | async)?.FriendlyDescriptionPurpose}}'</p> -->
+    </button>
+  </div>
+  
+  <div *ngIf="!searchMode && !(loading$ | async)">
+    
+      <div class="btn-group btn-block">            
+        <button class="btn btn-default" style="background-color: #0A1B37;" (click)="goBack()">
+          <p class="return">Return to edit screen for GLN '{{(gln$ | async)?.OwnGln + " - " + (gln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+        </button>
+      </div>
+      
+      <!-- <div [routerLink]="['edit-gln/', (gln$ | async)?.Id]">
+        <gln-row-summary [gln]="gln$ | async"></gln-row-summary>
+      </div> -->
+      <br>
+      <br>
+      <div *ngFor="let t of tags">
+        <div class="row">
+          <div class="col-md-4"> 
+            <p>{{ t.GlnTagType.Description }}</p> 
+            <p>{{ "Code - " + t.GlnTagType.Code }}</p>                 
+          </div>
+          <div class="col-md-4">
+            <!-- <p class="card-subtitle mb-2 text-muted" *ngIf="g.Function || g.Department">{{ g.Function + " "  + (g.Department | takeLastValue )}}</p> -->
+          </div>
+          <div class="col-md-4">
+            <button class="btn-remove" (click)="deleteAssociatedTag(t.GlnTagId)">
+              <i style="color: #AD6161; margin-right: 15px;" class="fa fa-chain-broken" aria-hidden="true"></i>
+              Remove Associated Tag
+            </button>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <br>
+    
+    
+    <div class="col-md-12">
+      <div class="col-md-6">
+        <select id="tag" class="form-control" [(ngModel)]="tagTypeId">
+          <option value=""></option>
+          <option *ngFor="let tt of tagTypesFiltered" value="{{ tt.GlnTagTypeId }}">{{ tt.Description }}</option>
+        </select>
+      </div>
+      <div class="col-md-6">        
+        <button class="btn-assign" (click)="associateTag()">
+          <i style="color: #4D8C7D; margin-right: 20px;" class="fa fa-handshake-o" aria-hidden="true"></i>
+          Associate Tag
+        </button>
+      </div>
+    </div>
+    <div *ngIf="searchMode">
+      <br>
+      <!-- <app-search-tag [associateMode]="true" [reloadPreviousQuery]="true"></app-search-tag> -->
+    </div>
+  </div>
+  

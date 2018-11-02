@@ -1,0 +1,22 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div *ngIf="isActive">
+    <div *ngIf="isRightActive">
+        <i class="fa fa-angle-double-right fa-{{ iconSize }}x pull-left" (click)="onClick()"><p id="right">{{ title }}</p></i>
+    </div>
+    <div *ngIf="isLeftActive">
+        <i class="fa fa-angle-double-left fa-{{ iconSize }}x pull-left" (click)="onClick()"><p id="left">{{ title }}</p></i>
+    </div>
+    <div *ngIf="isDownActive">
+        <i class="fa fa-angle-double-down fa-{{ iconSize }}x pull-left" (click)="onClick()"><p id="down">{{ title }}</p></i>
+    </div>
+    <div *ngIf="isUpActive">
+        <i class="fa fa-angle-double-up fa-{{ iconSize }}x pull-left" (click)="onClick()"><p id="up">{{ title }}</p></i>
+    </div>
+</div>
+

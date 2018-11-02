@@ -1,0 +1,40 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="card" *ngIf="(tagType$ | async) && !(loading$ | async)">
+    <form [formGroup]="tagTypeForm">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="create-new" (click)="addNewTagType()">Create New Tag Type</p>            
+          </div>
+          <div class="col-md-6" *ngIf="editMode$ | async">
+            <p class="update-contact" (click)="submit()" *ngIf="tagTypeForm.valid && tagTypeForm.dirty">Update Tag Type Details</p> 
+          </div>
+        </div>
+        <div class="card-block" *ngIf="!(editMode$ | async)">
+          <p class="save-new" (click)="createTagType()" *ngIf="tagTypeForm.valid && tagTypeForm.dirty">Save New Tag Type Details</p> 
+        </div>
+      </div>
+      <div class="card-block row">
+          <active [isActive]="tagTypeForm.get('active').value"
+                   (change)="onValueChange($event, 'active');"
+                   ></active>
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !tagTypeForm.get('description').valid }">Description</h4>
+        <input class="form-control" [ngClass]="{'input-req': !tagTypeForm.get('description').valid }" 
+              placeholder="Enter Description" type="text" formControlName="description" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !tagTypeForm.get('code').valid }">Code</h4>
+        <input class="form-control" [ngClass]="{'input-req': !tagTypeForm.get('code').valid }" 
+              placeholder="Enter Description" type="text" formControlName="code" />
+      </div>
+    </form>
+  </div>

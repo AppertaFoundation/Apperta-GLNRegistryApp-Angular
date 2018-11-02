@@ -1,0 +1,30 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="primaryContact">
+  <div class="card-block">
+    <h4  *ngIf="title" class="card-title">{{ title }}</h4>
+  </div>
+  <hr *ngIf="title">
+
+  <div class="card-block">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4 class="card-text">{{ primaryContact.Name }}</h4>
+        <p class="card-text">{{ "Email - " + primaryContact.Email }}</p>
+        <p class="card-text">{{ "Telephone - " + primaryContact.Telephone }}</p>
+        <p class="card-text" *ngIf="primaryContact.Fax">{{ "Fax - " + primaryContact.Fax }}</p>
+        <p class="card-text" *ngIf="primaryContact.Function">{{ "Function - " + primaryContact.Function }}</p>
+      </div>
+      <div class="col-sm-4">
+        <active [isActive]="primaryContact.Active" 
+              [disabled]="true">
+        </active>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div *ngIf="(_messagesService.questions$ | async)?.length === 0">
+  <div class="btn-group btn-block" *ngIf="searchMode && !(loading$ | async)">            
+      <button class="btn btn-default" style="background-color: #0A1B37;" (click)="toggleSearch()">
+        <p class="return">Return to associations for GLN '{{(gln$ | async)?.OwnGln + " - " + (gln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+      </button>
+  </div>
+
+  <div *ngIf="!searchMode && !(loading$ | async)">
+    
+    <div class="btn-group btn-block">            
+        <button class="btn btn-default" style="background-color: #0A1B37;" [routerLink]="['edit-gln/', (gln$ | async)?.Id]">
+          <p class="return">Return to edit screen for GLN '{{(gln$ | async)?.OwnGln + " - " + (gln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+        </button>
+    </div>
+
+    <!-- <div [routerLink]="['edit-gln/', (gln$ | async)?.Id]">
+      <gln-row-summary [gln]="gln$ | async"></gln-row-summary>
+    </div> -->
+    <br>
+
+    <button class="btn-assign" (click)="toggleSearch()">
+      <i style="color: #D9E1DF; margin-right: 20px;" class="fa fa-handshake-o" aria-hidden="true"></i>
+      Associate a GLN
+    </button>
+    <br>
+    <br>
+      <div *ngFor="let g of (associatedGlns$ | async)">
+        <div class="row">
+          <div class="col-md-4"> 
+            <p>{{ g.FriendlyDescriptionPurpose }}</p> 
+            <p>{{ "GLN - " + g.OwnGln }}</p>                 
+          </div>
+          <div class="col-md-4">
+            <p class="card-subtitle mb-2 text-muted" *ngIf="g.Function || g.Department">{{ g.Function + " "  + (g.Department | takeLastValue )}}</p>
+          </div>
+          <div class="col-md-4">
+            <button class="btn-remove" (click)="removeAssociatedGln(g.Id)">
+              <i style="color: #D9E1DF; margin-right: 15px;" class="fa fa-chain-broken" aria-hidden="true"></i>
+              Remove Associated GLN
+            </button>
+          </div>
+        </div>
+        <hr>
+      </div>
+  </div>
+
+  <div *ngIf="searchMode">
+    <br>
+    <app-search-gln [associateMode]="searchMode" [reloadPreviousQuery]="true"></app-search-gln>
+  </div>
+</div>

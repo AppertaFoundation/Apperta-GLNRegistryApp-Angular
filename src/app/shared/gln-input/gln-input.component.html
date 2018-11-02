@@ -1,0 +1,120 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="card" *ngIf="(gln$ | async) && !(loading$ | async)">
+    <form [formGroup]="glnInputForm">
+      <div class="card-block" *ngIf="glnInputForm.dirty && glnInputForm.valid">
+        <button class="btn btn-default save-changes"
+            (click)="saveChanges()">Save Changes
+        </button>
+      </div>
+
+      <div class="card-block">
+        <h4 class="card-text">GLN: {{ (gln$ | async)?.OwnGln }}</h4>
+        <p class="card-text">Creation Date: {{ (gln$ | async)?.CreationDate | date: 'longDate' }}</p>
+          <p class="card-text" *ngIf="(gln$ | async)?.TierLevel">Tier Level - {{ (gln$ | async)?.TierLevel }}</p>        
+      </div>
+      <hr>
+
+      <div class="card-block" *ngIf="(gln$ | async)?.AlternativeSystemIsTruth">
+        <h4 class="card-text">{{(ipr$ | async)?.IprName + " Description Purpose" }}</h4>
+          <p class="card-text">{{ (gln$ | async)?.TruthDescriptionPurpose }}</p> 
+          <p class="card-text" *ngIf="(gln$ | async)?.Function">{{ (ipr$ | async)?.IprName + " Function - " + (gln$ | async)?.Function }}</p>          
+          <p class="card-text" *ngIf="(gln$ | async)?.Department">{{(ipr$ | async)?.IprName + " Department - " + (gln$ | async)?.Department }}</p>        
+        <hr>
+      </div>
+
+      <div class="card-block" *ngIf="!(gln$ | async)?.Primary">
+        <h4 class="card-text" [ngClass]="{'label-req': !glnInputForm.get('descriptionPurpose').valid }" id="local-description">Local Description/Purpose</h4>
+        <input class="form-control" [ngClass]="{'input-req': !glnInputForm.get('descriptionPurpose').valid }" 
+              placeholder="Enter new local description" type="text" formControlName="descriptionPurpose" />
+      </div>
+
+      <div class="card-block" *ngIf="!(gln$ | async)?.Primary">
+        <h4 class="card-text" [ngClass]="{'label-req': !glnInputForm.get('deliveryNote').valid }" id="local-description">Delivery Note</h4>
+        <input class="form-control" [ngClass]="{'input-req': !glnInputForm.get('deliveryNote').valid }" 
+              placeholder="Enter delivery note" type="text" formControlName="deliveryNote" />
+      </div>
+
+      <div class="card-block" *ngIf="!(gln$ | async)?.AlternativeSystemIsTruth">
+        <h4 class="card-text" [ngClass]="{'label-req': !glnInputForm.get('function').valid }" id="Function">Function</h4>
+        <input class="form-control" [ngClass]="{'input-req': !glnInputForm.get('function').valid }" 
+              placeholder="Enter function" type="text" formControlName="function" />
+      </div>
+      
+      <div class="card-block" *ngIf="(gln$ | async)?.Primary">
+        <h4 class="card-text" [ngClass]="{'label-req': !glnInputForm.get('descriptionPurpose').valid }" id="local-description">Local Description/Purpose</h4>
+        <p>{{ (gln$ | async)?.FriendlyDescriptionPurpose }}</p>
+      </div>
+      <hr>
+
+      <div class="card-block">
+
+        <div class="row" *ngIf="(gln$ | async)?.SuspensionReason != 'National deactivated'">
+          <active [isActive]="glnInputForm.get('active').value"
+                  (change)="onValueChange($event, 'active');"
+                  [disabled]="(gln$ | async)?.Primary">
+          </active>
+          <app-exclamation [exclamationOnOff]="glnInputForm.get('trustActive').value"
+                          [disabled]="!(gln$ | async)?.Active"
+                          (change)="onValueChange($event, 'trustActive');"
+                          [onText]="trustSuspended" 
+                          [offText]="trustNotSuspeneded">
+          </app-exclamation>
+          <publicPrivate [publicPrivate]="(gln$ | async)?.Public" 
+                          (change)="onValueChange($event, 'public');">
+          </publicPrivate>
+        </div>
+
+        <div class="row" *ngIf="(gln$ | async)?.SuspensionReason == 'National deactivated'">
+          <active [isActive]="glnInputForm.get('active').value"
+                  [disabled]="true">
+          </active>
+          <app-exclamation [exclamationOnOff]="glnInputForm.get('trustActive').value"
+                          [disabled]="true"
+                          [onText]="trustSuspended" 
+                          [offText]="trustNotSuspeneded">
+          </app-exclamation>
+          <publicPrivate [publicPrivate]="(gln$ | async)?.Public" 
+                          (change)="onValueChange($event, 'public');">
+          </publicPrivate>
+        </div>
+      </div>
+
+      <div class="card-block" *ngIf="!glnInputForm.get('trustActive').value && glnInputForm.get('active').value">
+        <label [ngClass]="{'label-req': !glnInputForm.get('suspensionReason').valid }" id="suspension-reason">Suspension Reason Required</label>
+        <input class="form-control" [ngClass]="{'input-req': !glnInputForm.get('suspensionReason').valid }" type="text" formControlName="suspensionReason" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <div class="row">
+          <active [isActive]="(gln$ | async)?.PhysicalType"
+                  (change)="onValueChange($event, 'physicalType');" 
+                  [title]="physical"
+                  [disabled]="(gln$ | async)?.AlternativeSystemIsTruth || areAllTypesFalse('physicalType')">
+          </active>
+          <active [isActive]="(gln$ | async)?.FunctionalType"
+                  (change)="onValueChange($event, 'functionalType');"
+                  [title]="functional"
+                  [disabled]="(gln$ | async)?.AlternativeSystemIsTruth || areAllTypesFalse('functionalType')">
+          </active>
+          <active [isActive]="(gln$ | async)?.LegalType"
+                  (change)="onValueChange($event, 'legalType');"
+                  [title]="legal"
+                  [disabled]="(gln$ | async)?.AlternativeSystemIsTruth || areAllTypesFalse('legalType')">
+          </active>
+          <active [isActive]="(gln$ | async)?.DigitalType" 
+                  (change)="onValueChange($event, 'digitalType');"
+                  [title]="digital"
+                  [disabled]="(gln$ | async)?.AlternativeSystemIsTruth || areAllTypesFalse('digitalType')">
+          </active>
+        </div>
+      </div>
+      <br>
+    </form>
+  </div>

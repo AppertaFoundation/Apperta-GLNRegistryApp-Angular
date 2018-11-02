@@ -1,0 +1,75 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="(address$ | async) && !(loading$ | async)">
+    <form [formGroup]="addressInputForm">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="create-new" (click)="addNewAddress()">Create New Address</p>            
+          </div>
+          <div class="col-md-6" *ngIf="editMode$ | async">
+            <p class="update-contact" (click)="submit()" *ngIf="addressInputForm.valid && addressInputForm.dirty">Update Address Details</p> 
+          </div>
+        </div>
+        <div class="card-block" *ngIf="!(editMode$ | async)">
+          <p class="save-new" (click)="createAddress()" *ngIf="addressInputForm.valid && addressInputForm.dirty">Save New Address Details</p> 
+        </div>
+      </div>
+      <div class="card-block row">
+          <active [isActive]="addressInputForm.get('active').value"
+                   (change)="onValueChange($event, 'active');"
+                   ></active>
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('postcode').valid }">Postcode</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('postcode').valid }" 
+              placeholder="Enter Postcode" type="text" formControlName="postcode" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('addressLineOne').valid }">Address First Line</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('addressLineOne').valid }" 
+              placeholder="Enter Address First Line" type="text" formControlName="addressLineOne" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('addressLineTwo').valid }">Address Second Line</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('addressLineTwo').valid }" 
+              placeholder="Enter Address Second Line" type="text" formControlName="addressLineTwo" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('addressLineThree').valid }">Address Third Line</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('addressLineThree').valid }" 
+              placeholder="Enter Address Third Line" type="text" formControlName="addressLineThree" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('addressLineFour').valid }">Address Fourth Line</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('addressLineFour').valid }" 
+              placeholder="Enter Address Fourth Line" type="text" formControlName="addressLineFour" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('city').valid }">City</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('city').valid }" 
+              placeholder="Enter City" type="text" formControlName="city" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('regionCounty').valid }">Region/County</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('regionCounty').valid }" 
+              placeholder="Enter Region/County" type="text" formControlName="regionCounty" />
+      </div>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !addressInputForm.get('level').valid }">Level</h4>
+        <input class="form-control" [ngClass]="{'input-req': !addressInputForm.get('level').valid }" 
+              placeholder="Enter Level (numbers only)" type="text" formControlName="level" />
+      </div>
+      <div class="card-block" *ngIf="editMode$ | async">
+        <p class="update-contact" (click)="submit()" *ngIf="addressInputForm.valid && addressInputForm.dirty">Update Address Details</p> 
+      </div>
+      <div class="card-block" *ngIf="!(editMode$ | async)">
+        <p class="save-new" (click)="createAddress()" *ngIf="addressInputForm.valid && addressInputForm.dirty">Save New Address Details</p> 
+      </div>
+    </form>
+  </div>

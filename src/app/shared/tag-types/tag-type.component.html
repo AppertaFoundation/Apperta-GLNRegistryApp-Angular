@@ -1,0 +1,28 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="tagType">
+  <div class="card-block">
+    <div class="card-title">
+      <h4 *ngIf="title">{{ title }}</h4>
+    </div>
+  </div>
+  <hr *ngIf="title">
+  <div class="card-block">
+    <div class="card-text">
+      <h5 class="card-text">{{ 'Description - ' + tagType.Description }}</h5>
+      <p *ngIf="tagType.Code" class="card-text">{{ 'Code - ' + tagType.Code }}</p>
+    </div>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <active [isActive]="tagType.Active" 
+            [disabled]="true">
+      </active>
+    </div>
+  </div>
+</div>

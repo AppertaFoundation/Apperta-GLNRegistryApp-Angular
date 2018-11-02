@@ -1,0 +1,26 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<header>
+  <div class="row">
+    <div class="col-md-8">
+      <h1>{{title}}</h1>
+    </div>
+    <div class="col-md-4">
+      <h1>{{ 'Welcome: ' + (user$ | async)?.SamAccountName }}</h1>
+    </div>
+  </div>
+</header>  
+  <app-site-nav></app-site-nav>
+  <gln-messages></gln-messages>
+<div class="container-fluid">
+  <load-spinner></load-spinner>
+  <router-outlet></router-outlet>
+</div>
+
+
+

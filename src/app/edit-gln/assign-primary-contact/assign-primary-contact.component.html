@@ -1,0 +1,62 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="btn-group btn-block">            
+    <button class="btn btn-default" style="background-color: #0A1B37;" (click)="backClicked()">
+        <p class="return">Return to edit screen for GLN '{{(selectedGln$ | async)?.OwnGln + " - " + (selectedGln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+    </button>
+</div>
+<div class="row">
+    <div class="col-md-6">
+
+    <h3>Select Primary Contact</h3>
+
+        <div *ngIf="(primaryContacts$ | async) && !(loading$ | async)">
+            <div *ngFor="let c of (primaryContacts$ | async)">
+                <div style="margin-bottom: 3px;" *ngIf="c.Active">
+                    <app-gln-contact [primaryContact]="c" (click)="selectContact(c.Id)"></app-gln-contact>                    
+                </div>           
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="btn-group btn-block">            
+        <button class="btn btn-default" (click)="toggleViewContact()" *ngIf="!viewContact">
+            View Current Contact 
+            <br>
+            <i class="fa fa-angle-double-down fa-2x select-contact"></i>
+        </button>
+        <button class="btn btn-default" (click)="toggleViewContact()" *ngIf="viewContact">
+            Hide Current Contact 
+            <br>
+            <i class="fa fa-angle-double-up fa-2x select-contact"></i>
+        </button>
+    </div>
+        <div *ngIf="(selectedGln$ | async)">
+            <div *ngIf="viewContact">
+                <!--<app-gln-address [address]="(selectedGln$ | async)?.Address" [title]="currentAddressTitle"></app-gln-address>-->
+                <app-gln-contact [primaryContact]="(selectedGln$ | async)?.PrimaryContact" [title]="currentContactTitle"></app-gln-contact>
+            </div>
+
+            <div class="btn-group btn-block" *ngIf="(selectedPrimaryContact$ | async)?.Id">
+                <button type="button" class="btn btn-default" (click)="assignContact()"
+                        [disabled]="(selectedPrimaryContact$ | async)?.Id === (selectedGln$ | async)?.PrimaryContact.Id">
+                    Assign Selected Primary Contact
+                    <br>
+                    <i class="fa fa-circle fa-2x select-contact"></i>
+                </button>
+            </div>
+                <div *ngIf="(selectedPrimaryContact$ | async)?.Id && !(loading$ | async)">
+                    <app-gln-contact [primaryContact]="selectedPrimaryContact$ | async" [title]="selectedContactTitle"></app-gln-contact>
+                </div>
+        </div>
+    </div>
+
+</div>
+<!--Search Column-->

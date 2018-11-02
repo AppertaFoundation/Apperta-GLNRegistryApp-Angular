@@ -1,0 +1,143 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="container-fluid" *ngIf="!(loading$ | async) && (_messagesService.questions$ | async)?.length === 0">
+  <div class="row">
+    <p class="search-return btn" [routerLink]="['/search-back']">Back To Previous Search</p>
+  </div>
+  <div class="row">
+    <div class="col-md-7" *ngIf="(gln$ | async) && userIsAdmin && (_messagesService.questions$ | async)?.length === 0">
+      <div class="card" *ngIf="(gln$ | async)?.AlternativeSystemIsTruth && (gln$ | async)?.TierLevel === 5">
+        <div class="card-footer" (click)="viewDrawing()">
+          <a class="btn btn-default">
+            <i class="fa fa-map-marker fa-2x pull-left"></i>View Drawing Location</a>
+        </div>
+      </div>
+      <br>
+      <app-gln-input (isValid)="formValid = $event"  *ngIf="(gln$ | async)?.Active"></app-gln-input>
+      <app-gln [gln]="gln$ | async" *ngIf="!(gln$ | async)?.Active"></app-gln>
+    </div>
+    <div class="col-md-7" *ngIf="(gln$ | async) && !userIsAdmin">
+      <div class="card" *ngIf="(gln$ | async)?.AlternativeSystemIsTruth && (gln$ | async)?.TierLevel === 5">
+        <div class="card-footer" (click)="viewDrawing()">
+          <a class="btn btn-default">
+            <i class="fa fa-map-marker fa-2x pull-left"></i>View Drawing Location</a>
+        </div>
+      </div>
+      <br>
+      <app-gln [gln]="gln$ | async"></app-gln>
+    </div>
+
+    <div class="col-md-5" *ngIf="gln$ | async">
+
+        <div class="card" *ngIf="associated$ | async">
+        <div class="card-block">
+          <div class="card-title">
+            <h4>Associated GLN's</h4>
+            <hr>
+          </div>
+          <div class="card-subtitle">
+            <ul>
+              <li *ngFor="let a of associated$ | async">
+                <p>{{ a.FriendlyDescriptionPurpose }}</p>
+                <p class="text-muted">{{ a.OwnGln }}</p>            
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer" [routerLink]="['/associated-gln']" *ngIf="formValid && userIsAdmin">
+            <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+            <p class="edit-link">Manage Associations</p>
+        </div>
+      </div>
+      <br>
+
+      <div class="card" *ngIf="!(gln$ | async)?.Primary">
+        <div class="card-block">
+          <div class="card-title">
+            <h4>Assigned Parent GLN</h4>
+            <hr>
+          </div>
+          <div class="card-subtitle">
+            <p>{{ (gln$ | async)?.ParentGln }}</p>
+            <p>{{ (gln$ | async)?.ParentDescriptionPurpose }}</p>
+          </div>
+        </div>
+        <div class="card-footer" [routerLinkActive]="['link-active']" [routerLink]="['assign-parent/',  (gln$ | async)?.ParentGln ]" 
+              *ngIf="!(gln$ | async)?.AlternativeSystemIsTruth && formValid && userIsAdmin">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Change Parent</p>
+        </div>
+      </div>
+      <br>
+
+      <div class="card">
+        <div class="card-block">
+          <div class="card-title">
+            <h4>Assigned Address</h4>
+            <hr>
+          </div>
+          <div class="card-subtitle">
+            <p>{{ (gln$ | async)?.Address.AddressLineOne }}</p>
+            <p>{{ (gln$ | async)?.Address.AddressLineTwo + ", "  +
+                  (gln$ | async)?.Address.AddressLineThree + ", " + 
+                  (gln$ | async)?.Address.AddressLineFour }}</p>
+            <p>{{ (gln$ | async)?.Address.City + ", "  +
+                  (gln$ | async)?.Address.RegionCounty + ", " + 
+                  (gln$ | async)?.Address.Postcode }}</p>
+            <p *ngIf="(gln$ | async)?.Address.Level">{{ "Level - " + (gln$ | async)?.Address.Level }}</p>
+          </div>
+        </div>
+        <div class="card-footer" [routerLink]="['assign-address/']" *ngIf="!(gln$ | async)?.AlternativeSystemIsTruth && formValid && userIsAdmin" >
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Change Address</p>
+        </div>
+      </div>
+      <br>
+
+      <div class="card">
+        <div class="card-block">
+          <div class="card-title">
+            <h4>Assigned Primary Contact</h4>
+            <hr>
+          </div>
+          <div class="card-subtitle">
+            <p>{{ (gln$ | async)?.PrimaryContact.Name }}</p>
+            <p>{{ (gln$ | async)?.PrimaryContact.Email }}</p>
+            <p>{{ (gln$ | async)?.PrimaryContact.Telephone }}</p>
+          </div>
+        </div>
+        <div class="card-footer" [routerLink]="['assign-primary-contact/']" *ngIf="formValid && userIsAdmin" >
+            <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+            <p class="edit-link">Change Primary Contact</p>
+        </div>
+      </div>
+      <br>
+
+        <div class="card" *ngIf="(gln$ | async)?.Tags">
+        <div class="card-block">
+          <div class="card-title">
+            <h4>Associated Tags</h4>
+            <hr>
+          </div>
+          <div class="card-subtitle">
+            <div *ngFor="let t of (gln$ | async)?.Tags">
+                <p>{{ t.GlnTagType.Description + ' - ' + t.GlnTagType.Code }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer" [routerLink]="['/associated-tags']" *ngIf="formValid && userIsAdmin">
+            <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+            <p class="edit-link">Manage Tags</p>
+        </div>
+      </div>
+      <br>
+    </div>
+
+  </div>
+</div>

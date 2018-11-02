@@ -1,0 +1,61 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<br>
+<div class="row header-row">
+    <!--Search Column-->
+    <div class="col-md-6">
+
+    <h3>Subscriber Search</h3>
+
+        <form [formGroup]="searchForm">
+            <input type="text" id="search-bar" 
+                placeholder="Please enter name, email address or system" 
+                class="form-control" formControlName="searchTerm">
+        </form>
+        <br>
+        <form [formGroup]="queryForm">
+            <app-radio-button (change)="onValueChange($event, 'active');"
+                            [trueTitle]="activeTitle"
+                            [falseTitle]="deactivatedTitle"
+                            [trueValue]="true">
+            </app-radio-button>
+        </form>
+        <br>
+
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group">
+                <button class="btn btn-default btn-group fa fa-chevron-circle-left" (click)="previousPage()"></button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-group">{{ currentPage }}</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-group fa fa-chevron-circle-right" (click)="nextPage()" [disabled]="itemsOnCurrentPage < additionalContactQuery.PageSize"></button>
+            </div>
+        </div>
+        <div *ngIf="(additionalContactQueryResult$ | async)?.TotalPages > 1">
+            <p>{{ "Total pages - " + (additionalContactQueryResult$ | async)?.TotalPages }}</p>
+        </div>
+
+        <div>
+            <div *ngIf="!(loading$ | async)">
+                <div *ngFor="let a of (additionalContactQueryResult$ | async).Items">
+                    <app-gln-additional-contact [additionalContact]="a" (click)="selectAdditionalContact(a.Id)"></app-gln-additional-contact>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--Selected Column-->
+    <div class="col-md-6" *ngIf="(selectedAdditionalContact$ | async)">
+        <div *ngIf="!(loading$ | async)">
+            <app-gln-additional-contact-input></app-gln-additional-contact-input>
+        </div>
+    </div>
+</div>

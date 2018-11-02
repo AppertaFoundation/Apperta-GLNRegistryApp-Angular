@@ -1,0 +1,20 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<br>
+<div class="btn-group btn-block" *ngIf="!(loading$ | async)">            
+    <button class="btn btn-default assign-parent-nav-btn" (click)="backToGln()">
+      <p class="return">Current GLN being edited '{{(gln$ | async)?.OwnGln + " - " + (gln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+      <p class="assign-parent-nav-btn">Current Parent '{{(currentParentGln$ | async)?.OwnGln + " - " + (currentParentGln$ | async)?.FriendlyDescriptionPurpose}}'</p>
+    </button>
+</div>
+
+<div class="col-md-12">
+    <h2>Search & Select New Parent</h2>
+    <app-search-gln [assignParentMode]="true" [reloadPreviousQuery]="true"></app-search-gln>
+
+</div>

@@ -1,0 +1,31 @@
+//Global Location Number (GLN) Registry Angular Client Site
+//Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+//
+//You should have received a copy of the GNU Affero General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+// 
+// See LICENSE in the project root for license information.
+input {
+    background-color: #374864;
+    border: none;
+    border-bottom: 4px solid #F9D793;
+    color: #C5E6FF;
+}
+
+.label-req {
+    color: #D37676;
+}
+
+.input-req {
+    background-color: #374864;
+    border: none;
+    border-bottom: 4px solid #D37676;
+    color: #D37676;
+}
+
+button {
+    margin: 10px 10px;
+    width: 25%;
+    background-color: #5DAA98;
+    border: none;
+}

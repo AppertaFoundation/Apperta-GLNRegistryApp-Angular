@@ -1,0 +1,391 @@
+//Global Location Number (GLN) Registry Angular Client Site
+//Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+//
+//You should have received a copy of the GNU Affero General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+// 
+// See LICENSE in the project root for license information.
+/* You can add global styles to this file, and also import other style files */
+
+/* @import "~bootstrap/dist/css/bootstrap.css";
+
+@import "~font-awesome/css/font-awesome.css"; */
+
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+$fa-font-path: "~font-awesome/fonts";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+
+* {
+    font-family: "Avenir Next Regular", sans-serif;
+    color: #374864;
+}
+
+a {
+    color: #374864;
+}
+
+body {
+    background-color: #E6E1E8;
+}
+
+button { 
+    background-color: #0A1B37;
+    border-color: #374864;
+    color: #C5E6FF;
+    margin: 3px;
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer; cursor: hand;
+}
+
+hr {
+    margin-left: 1em;
+    margin-right: 2em;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: 0;
+    border-top: 1px solid #374864;
+}
+
+select {
+    background-color: #E6E1E8;
+    border: none;
+    border-bottom: 4px solid #0A1B37;
+    border-radius: 5px;
+    color: #374864;
+    padding: 6px 6px;
+    margin: 2px 2px;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.alert-danger {
+    border: none;
+    border-bottom: 3px solid #AD6161;
+    border-radius: 5px;
+    background-color: #374864;
+    color:#F7E6E6;
+}
+
+.alert-success {
+    border: none;
+    border-bottom: 3px solid #4D8C7D;
+    border-radius: 5px;
+    background-color: #374864;
+    color:#D9E1DF;
+}
+
+.btn-assign { 
+    background-color: transparent;
+    border-color: #4D8C7D;
+    border-radius: 5px;
+    border-style: solid;
+    color: #4D8C7D;
+    margin: 3px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}
+
+.btn-continue { 
+    background-color: #c5e6ff;
+    border-color: #213453;
+    border-radius: 5px;
+    color: #213453;
+    margin: 3px;
+    width: 100%;
+    height: 50px;
+    font-size: 25px;
+}
+
+.btn-cancel { 
+    background-color: transparent;
+    border-color: #AD6161;
+    border-style: solid;
+    border-radius: 5px;
+    color: #AD6161;
+    margin: 3px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}
+
+.btn-search { 
+    background-color: none;
+    border-color: none;
+    color: #D9E1DF;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.btn-remove { 
+    background-color: transparent;
+    border-color: #AD6161;
+    border-style: solid;
+    border-radius: 5px;
+    color: #AD6161;
+    margin: 3px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}
+
+.card {
+    background-color: #FCF8FF;
+    border: 2px solid #213453; 
+    border-radius: 5px;
+    color: #213453; 
+    padding: 10px;
+}
+
+.card.active, 
+.card.active:hover, 
+.card.active:focus { 
+    background-color: #ecf0f1;
+    border-color: #ecf0f1; 
+    color: #637186;
+}
+
+.card-link.edit {
+    color: #0A1B37;     
+}
+
+.card-footer {
+    background-color: #E6E1E8;
+    padding: .75rem 1.25rem;
+    display: inline-flex;
+    width: 100%;
+}
+
+.card-footer:hover {
+    cursor: pointer; cursor: hand;
+}
+
+.card-header {
+    background-color: #E6E1E8;
+    padding: .75rem 1.25rem;
+    display: inline-block;
+    width: 100%;
+}
+
+.card-link.view {
+    color: #0A1B37;     
+}
+
+.card-text {
+    color: #213453;
+}
+
+.card-title {
+    color: #0A1B37;
+}
+
+.edit-link {
+    margin: 4px;
+}
+
+.fa.fa-refresh {
+    color: #0A1B37;  
+}
+
+.fa.fa-square-o {
+    color: #0A1B37;  
+}
+
+.fa.fa-eye {
+    color: #82AEBC;  
+}
+
+.fa.fa-plus-circle {
+    color: #4D8C7D;  
+}
+
+.fa-angle-double-up {
+    color: #C5E6FF;    
+}
+
+.gln li { 
+    cursor: default; 
+}
+
+.gln li:hover { 
+    background: #213453; 
+} 
+
+.gln-row-summary {
+    background-color: #FCF8FF;
+    border: 1px solid #213453; 
+    border-radius: 5px;
+    padding: 15px;
+    margin: 7px;
+    color: #213453;  
+}
+
+.input-req {
+    background-color: #E6E1E8;
+    border: none;
+    border-bottom: 4px solid #AD6161;
+    color: #213453;
+}
+
+.jumbotron {
+    background-color:  #ECEEEF;
+    color: #374864;
+}
+
+.label-req {
+    color: #AD6161;
+}
+
+.list-group-item {
+    background-color: #213453;
+    border-color: #ecf0f1; 
+    color: #ecf0f1;  
+}
+
+.list-group-item.active, 
+.list-group-item.active:hover, 
+.list-group-item.active:focus { 
+    background-color: #ecf0f1;
+    border-color: #ecf0f1; 
+    color: #637186;
+}
+
+.load-spinner {
+    color: #0A1B37;
+    border: 50px;
+}
+
+.required {
+    color: #AD6161;
+}
+
+.row {
+    display: flex;
+    padding-top: 7px;
+    padding-left: 10px;
+}
+
+.row-filters {
+    display: inline-block;
+}
+
+.save-changes {
+    background-color: #4D8C7D;
+    border-color: #2b4e46;
+    border-radius: 5px;
+    color: #ecf0f1; 
+}
+
+.search-bar {
+    width: 70%;
+    border-radius: 5px;
+    color: #213453;
+    background-color: #ecf0f1;
+}
+
+.select-req {
+    background-color: #374864;
+    border: none;
+    border-bottom: 4px solid #D37676;
+    color: #D37676;
+}
+
+.text-muted {
+    color: #637186;
+}
+
+.update-message {
+    color: #E6E1E8;
+    border: 2px solid #2B4E46;
+    border-radius: 5px;
+    background-color: #5DAA98;
+    text-align: center;
+}
+
+.error-message {
+    color: #E6E1E8;
+    border: 2px solid #744141;
+    border-radius: 5px;
+    background-color: #D37676;
+    text-align: center;
+}
+
+.question-message {
+    color: #0E103D;
+    border: 2px solid #EC971F;
+    border-radius: 5px;
+    background-color: #F9E2C1;
+    text-align: center;
+}
+
+.create-new {
+  position: relative; /* Helps us control overlap */
+  padding-left: 60px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+  outline: none;
+}
+
+.create-new:after {
+  content: '\f055';
+  font-family: fontAwesome;
+  font-size: 3.0em;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+}
+
+.update-contact {
+  position: relative; /* Helps us control overlap */
+  padding-left: 60px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+}
+
+.update-contact:after {
+  content: '\f044';
+  font-family: fontAwesome;
+  font-size: 3.0em;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+}
+
+.save-new {
+  position: relative; /* Helps us control overlap */
+  padding-left: 60px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+}
+
+.save-new:after {
+  content: '\f0c7';
+  font-family: fontAwesome;
+  font-size: 3.0em;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+}
+
+.return:after {
+    content: '\f100';
+    font-family: fontAwesome;
+    font-size: 3em;;
+    position: absolute;
+    left: 0; /* Adjust as needed */
+    top: -30px; /* Adjust as needed */
+  }
+  
+  .return {
+      position: relative; /* Helps us control overlap */
+      padding-left: 30px;/* Creates space for the Phone Icon */
+      color: #C5E6FF;
+      margin: 10px;
+      font-size: 1.3em;
+      outline: none;
+  }
+

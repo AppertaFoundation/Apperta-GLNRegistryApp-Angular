@@ -1,0 +1,42 @@
+//Global Location Number (GLN) Registry Angular Client Site
+//Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+//
+//You should have received a copy of the GNU Affero General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+// 
+// See LICENSE in the project root for license information.
+.edit-link {
+    margin: 4px;
+    color: #374864;
+}
+
+.container-fluid {
+    width: 80%;
+    margin-top: 10px;
+}
+
+.card-footer:hover {
+    cursor: pointer; cursor: hand;
+}
+
+
+.search-return:after {
+    content: '\f100';
+    font-family: fontAwesome;
+    font-size: 3em;;
+    position: absolute;
+    left: 0; /* Adjust as needed */
+    top: -20px; /* Adjust as needed */
+  }
+  
+  .search-return {
+      position: relative; /* Helps us control overlap */
+      padding-left: 40px;/* Creates space for the Phone Icon */
+      color: #0A1B37;
+      margin: 10px;
+      font-size: 1.3em;
+  }
+
+  .search-return:hover {
+    cursor: pointer; cursor: hand;
+  }

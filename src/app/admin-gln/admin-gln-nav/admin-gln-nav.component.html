@@ -1,0 +1,152 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="row">
+  <h2>
+    Admin
+  </h2>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">
+          <h4>Primary Contact Admin</h4>
+          <hr>
+          <ul>
+            <li>
+              Update primary contact details.
+            </li>
+            <li>
+              Create new primary contact.
+            </li>
+            <li>
+              Deactivate a primary contact, choose an alternative replacement.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card-footer" [routerLink]="['/admin-gln/admin-primary-contact']">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Admin Primary Contacts</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">
+          <h4>Address Admin</h4>
+          <hr>
+          <ul>
+            <li>
+              Update address details.
+            </li>
+            <li>
+              Create new address.
+            </li>
+            <li>
+              Deactivate an address, choose an alternative replacement.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card-footer" [routerLink]="['/admin-gln/admin-address']">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Admin Address</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">
+          <h4>Subscriber Admin</h4>
+          <hr>
+          <ul>
+            <li>
+              Update subscriber details.
+            </li>
+            <li>
+              Create new subscriber.
+            </li>
+            <li>
+              Un-subscribe a subscriber.
+            </li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card-footer" [routerLink]="['/admin-gln/admin-additional-contact']">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Admin Subscribers</p>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">
+          <h4>Internet Property Registry (IPR) Admin</h4>
+          <hr>
+          <ul>
+            <li>
+              Update IPR details.
+            </li>
+          </ul>
+          <br>
+          <br>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card-footer" [routerLink]="['/admin-gln/admin-ipr']">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Admin IPR</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-block">
+        <div class="card-title">
+          <h4>Tags Admin</h4>
+          <hr>
+          <ul>
+            <li>
+              Create Tag.
+            </li>
+            <li>
+              Edit Tag.
+            </li>
+          </ul>
+          <br>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="card-footer" [routerLink]="['/admin-gln/admin-tag']">
+          <i class="fa fa-square-o fa-2x edit-link" aria-hidden="true"></i>
+          <p class="edit-link">Admin Tags</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

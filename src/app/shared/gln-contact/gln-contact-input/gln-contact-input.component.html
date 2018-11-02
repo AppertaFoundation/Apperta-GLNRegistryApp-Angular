@@ -1,0 +1,66 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="(primaryContact$ | async) && !(loading$ | async)">
+    <form [formGroup]="contactInputForm">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="create-new" (click)="addNewPrimaryContact()">Create New Primary Contact</p>            
+          </div>
+          <div class="col-md-6" *ngIf="editMode$ | async">
+            <p class="update-contact" (click)="submit()" *ngIf="contactInputForm.valid && contactInputForm.dirty">Update Primary Contact Details</p> 
+          </div>
+        </div>
+        <div class="card-block" *ngIf="!(editMode$ | async)">
+          <p class="save-new" (click)="createPrimaryContact()" *ngIf="contactInputForm.valid && contactInputForm.dirty">Save New Primary Contact Details</p> 
+        </div>
+      </div>
+      <div class="card-block row">
+          <active [isActive]="contactInputForm.get('active').value"
+                   (change)="onValueChange($event, 'active');"
+                   [disabled]="contactInputForm.get('active').value"></active>
+      </div>
+      <div class="card-block" *ngIf="contactInputForm">
+        <h4 class="card-text">Title</h4>
+          <dropdown [options]="options.options"
+                    (select)="setTitles($event)"
+                    [default]="default">
+          </dropdown>
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !contactInputForm.get('name').valid }">Name</h4>
+        <input class="form-control" [ngClass]="{'input-req': !contactInputForm.get('name').valid }" 
+              placeholder="Enter name of Primary Contact" type="text" formControlName="name" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !contactInputForm.get('email').valid }">Email</h4>
+        <input class="form-control" [ngClass]="{'input-req': !contactInputForm.get('email').valid }" 
+              placeholder="Enter email of Primary Contact" type="text" formControlName="email" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !contactInputForm.get('telephone').valid }">Telephone</h4>
+        <input class="form-control" [ngClass]="{'input-req': !contactInputForm.get('telephone').valid }" 
+              placeholder="Enter telephone of Primary Contact" type="text" formControlName="telephone" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !contactInputForm.get('function').valid }">Function</h4>
+        <input class="form-control" [ngClass]="{'input-req': !contactInputForm.get('function').valid }" 
+              placeholder="Enter function of Primary Contact" type="text" formControlName="function" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !contactInputForm.get('fax').valid }">Fax</h4>
+        <input class="form-control" [ngClass]="{'input-req': !contactInputForm.get('fax').valid }" 
+              placeholder="Enter fax of Primary Contact" type="text" formControlName="fax" />
+      </div>
+    </form>
+  </div>

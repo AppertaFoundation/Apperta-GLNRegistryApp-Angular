@@ -1,0 +1,59 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<br>
+<div class="row header-row">
+    <!--Search Column-->
+    <div class="col-md-6">
+
+    <h3>Tag Type Search</h3>
+
+        <form [formGroup]="searchForm">
+            <input type="text" id="search-bar" 
+                placeholder="Please enter tag description or code" 
+                class="form-control" formControlName="searchTerm">
+        </form>
+        <br>
+        <form [formGroup]="queryForm">
+            <app-radio-button (change)="onValueChange($event, 'active');"
+                            [trueTitle]="activeTitle"
+                            [falseTitle]="deactivatedTitle"
+                            [trueValue]="true">
+            </app-radio-button>
+        </form>
+        <br>
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group">
+                <button class="btn btn-default btn-group fa fa-chevron-circle-left" (click)="previousPage()"></button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-group">{{ currentPage }}</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default btn-group fa fa-chevron-circle-right" (click)="nextPage()" [disabled]="itemsOnCurrentPage < tagQuery.PageSize"></button>
+            </div>
+        </div>
+        <div *ngIf="(tagQueryResult$ | async)?.TotalPages > 1">
+            <p>{{ "Total pages - " + (tagQueryResult$ | async)?.TotalPages }}</p>
+        </div>
+        <br>
+        <div *ngIf="!(loading$ | async)"></div>
+            <div *ngFor="let t of (tagQueryResult$ | async).Items">
+                <app-tag-type [tagType]="t" (click)="selectTagType(t.GlnTagTypeId)"></app-tag-type>
+                <br>
+            </div>
+    </div>
+    <!--Selected Column-->
+    <div class="col-md-6" *ngIf="(selectedTagType$ | async)">
+        <!-- <button class="btn btn-default" id="deactivate-button" *ngIf="(selectedTagType$ | async)?.GlnTagTypeId && (selectedTagType$ | async)?.Active"
+            ([routerLink]="['/admin-gln/admin-address/admin-replacement']")>Deactivate Address
+        </button> -->
+        <div *ngIf="!(loading$ | async)">
+            <app-tag-type-input></app-tag-type-input>
+        </div>
+    </div>
+</div>

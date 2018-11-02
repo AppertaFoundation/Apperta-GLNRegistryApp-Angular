@@ -1,0 +1,24 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<form [formGroup]="popUpForm">
+    <div class="jumbotron">
+      <h2 class="label-req">{{title}}</h2> 
+    </div> 
+    <div class="form-group">
+        <input class="form-control" 
+            type="text" 
+            [ngClass]="{'input-req': !popUpForm.get('userInfo').valid }"
+            formControlName="userInfo"
+            value="{{ userInfo }}" />
+    </div>
+    <button class="btn btn-primary" (click)="sendUserInput()" [disabled]="!popUpForm.valid">  
+      Save/Return
+    </button>
+</form>
+

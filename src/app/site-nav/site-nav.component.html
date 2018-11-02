@@ -1,0 +1,77 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="nav-banner" *ngIf="!(loading$ | async)">
+  <div class="row" *ngIf="(user$ | async)?.AdminGroupUser">
+    <div class="col-md-4">
+      <a [routerLink]="['search']" class="navbar-brand">
+        <h3>Home</h3>
+      </a>      
+    </div>
+    <div class="col-md-4">
+      <a [routerLink]="['/export-import']" class="navbar-brand">
+        <h3>Reports</h3>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a [routerLink]="['/admin-gln']" class="navbar-brand">
+        <h3>Admin</h3>    
+      </a>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!(user$ | async)?.AdminGroupUser">
+    <div class="col-md-6">
+      <a [routerLink]="['search']" class="navbar-brand">
+        <h3>Home</h3>
+      </a>      
+    </div>
+    <div class="col-md-6">
+      <a [routerLink]="['/export-import']" class="navbar-brand">
+        <h3>Reports</h3>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="nav-banner" *ngIf="(loading$ | async)">
+  <div class="row" *ngIf="(user$ | async)?.AdminGroupUser">
+    <div class="col-md-4">
+      <a class="navbar-brand">
+        <h3>Home</h3>
+      </a>      
+    </div>
+    <div class="col-md-4">
+      <a class="navbar-brand">
+        <h3>Reports</h3>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a class="navbar-brand">
+        <h3>Admin</h3>    
+      </a>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!(user$ | async)?.AdminGroupUser">
+    <div class="col-md-6">
+      <a class="navbar-brand">
+        <h3>Home</h3>
+      </a>      
+    </div>
+    <div class="col-md-6">
+      <a class="navbar-brand">
+        <h3>Export/Import</h3>
+      </a>
+    </div>
+  </div>
+</div>
+
+  
+
+

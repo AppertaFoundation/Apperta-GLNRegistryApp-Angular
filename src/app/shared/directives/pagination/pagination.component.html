@@ -1,0 +1,47 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="row">
+    <nav *ngIf="pagination">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button class="btn btn-default fa fa-angle-double-left" (click)="start()"></button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default fa fa-chevron-circle-left" (click)="previous()"></button>                
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default"
+                    *ngIf="pagination.PageOneItems.length > 0"
+                    (click)="changePage(pagination.PageOneIndex)"
+                    [ngClass]="{'active-page' : pagination.CurrentPage == pagination.PageOneIndex }">{{ pagination.PageOneIndex }}
+                </button>                
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default"
+                    *ngIf="pagination.PageTwoItems.length > 0"
+                    (click)="changePage(pagination.PageTwoIndex)"
+                    [ngClass]="{'active-page' : pagination.CurrentPage == pagination.PageTwoIndex }">{{ pagination.PageTwoIndex }}
+                </button>                
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default"
+                    *ngIf="pagination.PageThreeItems.length > 0"
+                    (click)="changePage(pagination.PageThreeIndex)"
+                    [ngClass]="{'active-page' : pagination.CurrentPage == pagination.PageThreeIndex }">{{ pagination.PageThreeIndex }}
+                </button>                
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default fa fa-chevron-circle-right" (click)="next()"></button>                
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default fa fa-angle-double-right" (click)="end()"></button>                
+            </div>
+        </div>
+    </nav>
+</div>

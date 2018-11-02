@@ -1,0 +1,28 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="(ipr$ | async) && !(loading$ | async)">
+    <form [formGroup]="iprInputForm">
+      <div class="card-block">
+        <button class="btn btn-default" [disabled]="iprInputForm.invalid || iprInputForm.pristine"
+            (click)="submit()">Update IPR Details
+        </button>
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !iprInputForm.get('name').valid }">Name</h4>
+        <input class="form-control" [ngClass]="{'input-req': !iprInputForm.get('name').valid }" 
+              placeholder="Enter name of IPR system" type="text" formControlName="name" />
+      </div>
+      <hr>
+      <div class="card-block">
+        <h4 class="card-text" [ngClass]="{'label-req': !iprInputForm.get('imageAddress').valid }">Image Address</h4>
+        <input class="form-control" [ngClass]="{'input-req': !iprInputForm.get('imageAddress').valid }" 
+              placeholder="Enter image address" type="text" formControlName="imageAddress" />
+      </div>
+    </form>
+  </div>

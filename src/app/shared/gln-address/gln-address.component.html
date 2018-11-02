@@ -1,0 +1,32 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="address">
+  <div class="card-block">
+    <div class="card-title">
+      <h4 *ngIf="title">{{ title }}</h4>
+    </div>
+  </div>
+  <hr *ngIf="title">
+  <div class="card-block">
+    <div class="card-text">
+      <h5 class="card-text">{{ address.AddressLineOne }}</h5>
+      <p class="card-text" *ngIf="address.AddressLineTwo">{{ address.AddressLineTwo }}</p>
+      <p class="card-text" *ngIf="address.AddressLineThree">{{ address.AddressLineThree }}</p>
+      <p class="card-text" *ngIf="address.AddressLineFour">{{ address.AddressLineFour }}</p>
+      <p class="card-text">{{ address.City + ", " + address.RegionCounty + ", " + address.Country }}</p>
+      <p class="card-text">{{ address.Postcode }}</p>
+    </div>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <active [isActive]="address.Active" 
+            [disabled]="true">
+      </active>
+    </div>
+  </div>
+</div>

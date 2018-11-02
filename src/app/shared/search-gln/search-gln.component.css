@@ -1,0 +1,214 @@
+//Global Location Number (GLN) Registry Angular Client Site
+//Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+//
+//You should have received a copy of the GNU Affero General Public License
+//along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+// 
+// See LICENSE in the project root for license information.
+.breadcrumb-item:hover {
+    color:#0A1B37;
+    cursor: pointer; cursor: hand;
+}
+
+.link {
+  position: relative; /* Helps us control overlap */
+  padding-left: 60px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+  outline: none;
+}
+
+.link:after {
+  content: '\f096';
+  font-family: fontAwesome;
+  font-size: 3.0em;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+  outline: none;
+}
+
+.clear-search {
+  position: relative; /* Helps us control overlap */
+  padding-left: 60px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.clear-search:after {
+  content: '\f021';
+  font-family: fontAwesome;
+  font-size: 3.0em;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+}
+
+.change-cursor:hover {
+  cursor: pointer; cursor: hand;
+}
+
+.selected {
+  background-color: #FCF8FF;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.map-link {
+  position: relative; /* Helps us control overlap */
+  padding-left: 53px;/* Creates space for the Phone Icon */
+  color: #0A1B37;
+  margin-top: 20px;
+  margin-left: 7px;
+}
+
+.map-link:after {
+  content: '\f041';
+  font-family: fontAwesome;
+  font-size: 2.5em;;
+  position: absolute;
+  left: 0; /* Adjust as needed */
+  top: -20px; /* Adjust as needed */
+}
+
+.section {
+    margin-left: 30px;
+}
+
+.container label {
+  position: relative;
+}
+.container span::before,
+.container span::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.container span.radio:hover {
+  cursor: pointer;
+}
+.container span.radio::before {
+  left: -52px;
+  width: 45px;
+  height: 25px;
+  background-color: #A8AAC1;
+  border-radius: 50px;
+}
+.container span.radio::after {
+  left: -49px;
+  width: 17px;
+  height: 17px;
+  border-radius: 10px;
+  background-color: #0a1b37;
+  transition: left .25s, background-color .25s;
+}
+input[type="radio"]:checked + label span.radio::after {
+  left: -27px;
+  background-color: #0a1b37;
+}
+
+.icon-stack {
+    width: 100px;
+}
+
+.rad-active {
+    content: '\f111';
+    font-family: fontAwesome;   
+}
+
+
+.childrenswitch {
+    position: relative; width: 423px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.childrenswitch-checkbox {
+    display: none;
+}
+.childrenswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: none; border-radius: 20px;
+}
+.childrenswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.childrenswitch-inner:before, .childrenswitch-inner:after {
+    display: block; float: left; width: 50%; height: 42px; padding: 0; line-height: 40px;
+    font-size: 16px; color: #E6E1E8; font-family: "Avenir Next Regular", sans-serif;
+    box-sizing: border-box;
+}
+.childrenswitch-inner:before {
+    content: "Search all children starting from selected GLN";
+    padding-left: 20px;
+    background-color: #0a1b37; color: #E6E1E8;
+}
+.childrenswitch-inner:after {
+    content: "Search children belonging to selected GLN only";
+    padding-right: 20px;
+    background-color: #0a1b37; color: #E6E1E8;
+    text-align: right;
+}
+.childrenswitch-switch {
+    display: block; width: 30px; height: 30px; margin: 6px;
+    background: #E6E1E8;
+    position: absolute; top: 0; bottom: 0;
+    right: 383px;
+    border: none; border-radius: 100%;
+    transition: all 0.3s ease-in 0s; 
+}
+.childrenswitch-checkbox:checked + .childrenswitch-label .childrenswitch-inner {
+    margin-left: 0;
+}
+.childrenswitch-checkbox:checked + .childrenswitch-label .childrenswitch-switch {
+    right: 0px; 
+}
+
+
+.onoffswitch {
+    position: relative; width: 250px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: none; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 42px; padding: 0; line-height: 40px;
+    font-size: 16px; color: #E6E1E8; font-family: "Avenir Next Regular", sans-serif;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Exact Match";
+    padding-left: 30px;
+    background-color: #0a1b37; color: #E6E1E8;
+}
+.onoffswitch-inner:after {
+    content: "Include Any";
+    padding-right: 30px;
+    background-color: #0a1b37; color: #E6E1E8;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 30px; height: 30px; margin: 6px;
+    background: #E6E1E8;
+    position: absolute; top: 0; bottom: 0;
+    right: 210px;
+    border: none; border-radius: 100%;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}

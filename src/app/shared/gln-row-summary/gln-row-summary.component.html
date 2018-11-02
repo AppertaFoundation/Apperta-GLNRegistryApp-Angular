@@ -1,0 +1,72 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="container-fluid gln-row-summary">
+  <div class="row">
+    <div class="col-md-4">
+      <p>{{ gln.FriendlyDescriptionPurpose }}</p>
+      <p class="text-muted">{{ gln.OwnGln }}</p>
+      <p class="text-muted" *ngIf="gln.TierLevel && gln.PhysicalType">{{ (ipr$ | async)?.IprName +  ' Tier Level - ' + gln.TierLevel }}</p>
+    </div>
+    <div class="col-md-8">
+      <p class="text-muted" *ngIf="gln.Function || gln.Department">
+        <span class="text-muted" *ngIf="gln.Function">{{ gln.Function }}</span>
+        <span class="text-muted" *ngIf="gln.Function && gln.Department">{{ " - " }}</span>
+        <span class="text-muted" *ngIf="gln.Department">{{ (gln.Department | takeLastValue) }}</span>
+      </p>
+      <div class="col-md-12">
+        <div class="row">
+          <active *ngIf="gln.PhysicalType"
+                  [isActive]="gln.PhysicalType" 
+                  [title]="physical"
+                  [disabled]="true">
+          </active>
+          <active *ngIf="gln.FunctionalType"
+                  [isActive]="gln.FunctionalType" 
+                  [title]="functional"
+                  [disabled]="true">
+          </active>
+          <active *ngIf="gln.LegalType"
+                  [isActive]="gln.LegalType" 
+                  [title]="legal"
+                  [disabled]="true">
+          </active>
+          <active *ngIf="gln.DigitalType"
+                  [isActive]="gln.DigitalType" 
+                  [title]="digital"
+                  [disabled]="true">
+          </active>
+          <app-exclamation  *ngIf="gln.TrustActive"
+                          [exclamationOnOff]="gln.TrustActive" 
+                          [onText]="trustSuspended" 
+                          [offText]="trustActive"
+                          [disabled]="true">
+          </app-exclamation>
+          <publicPrivate [publicPrivate]="gln.Public" 
+                  [disabled]="true">
+          </publicPrivate>
+        </div>     
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px;" *ngIf="!gln.TrustActive">
+      <div class="col-md-2">
+          <app-exclamation [exclamationOnOff]="gln.TrustActive" 
+                  [onText]="trustSuspended" 
+                  [offText]="trustActive"
+                  [disabled]="true"
+                  [iconSize]=3>
+          </app-exclamation>
+      </div>
+      <div class="col-md-10">
+        <h5>{{ 'Suspension Reason - ' + gln.SuspensionReason}}</h5>
+        <p class="text-muted">{{ 'Suspended by - ' + gln.SuspendedBy + ', '}}</p>
+        <p class="text-muted">Suspended on - {{ gln.SuspensionDate | date: 'longDate' }}</p>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+<div class="card" *ngIf="additionalContact">
+  <div class="card-block">
+    <h4  *ngIf="title" class="card-title">{{ title }}</h4>
+  </div>
+  <hr *ngIf="title">
+
+  <div class="card-block">
+    <div class="row">
+      <div class="col-sm-8">
+          <h4 class="card-title">
+            <span *ngIf="additionalContact.Salutation">{{ additionalContact.Salutation }}</span>
+            <span>{{ additionalContact.Name }}</span>          
+          </h4>
+            <p class="card-text" *ngIf="additionalContact.System">{{ "System - " + additionalContact.System }}</p>
+            <p class="card-text">{{ "Email - " + additionalContact.Email }}</p>
+            <p class="card-text">{{ "Telephone - " + additionalContact.Telephone }}</p>
+            <p class="card-text" *ngIf="additionalContact.Fax">{{ "Fax - " + additionalContact.Fax }}</p>
+            <p class="card-text" *ngIf="additionalContact.Role">{{ "Role - " + additionalContact.Role }}</p>
+      </div>
+      <div class="col-sm-4">
+        <!-- <active [isActive]="additionalContact.Active" 
+              [disabled]="true">
+        </active> -->
+        <br>
+        <active [isActive]="additionalContact.NotificationSubscriber" 
+                [title]="subscriberTitle"
+                [disabled]="true">
+        </active>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <div class="row">
+    </div>
+  </div>
+</div>

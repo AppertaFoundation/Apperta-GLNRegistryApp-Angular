@@ -1,0 +1,311 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div *ngIf="!(loading$ | async) && !!searchForm && !!queryForm">
+  <div class="col-md-12">
+    <div class="row selected">
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-5">
+              <h4>{{ (selectedGln$ | async)?.FriendlyDescriptionPurpose }}</h4>
+              <h4>{{ (selectedGln$ | async)?.OwnGln }}</h4>
+              <h4 *ngIf="(selectedGln$ | async)?.AlternativeSystemIsTruth">{{ (ipr$ | async)?.IprName + ' Tier Level - ' + (selectedGln$ | async)?.TierLevel }}</h4>
+              <h4 *ngIf="!(selectedGln$ | async)?.AlternativeSystemIsTruth">{{ 'Tier Level - ' + (selectedGln$ | async)?.TierLevel }}</h4>
+            </div>
+            <div class="col-md-7">
+              <div class="row">
+                  <active *ngIf="(selectedGln$ | async)?.PhysicalType"
+                          [isActive]="(selectedGln$ | async)?.PhysicalType" 
+                          [title]="physical"
+                          [disabled]="true">
+                  </active>
+                  <active *ngIf="(selectedGln$ | async)?.FunctionalType"
+                          [isActive]="(selectedGln$ | async)?.FunctionalType" 
+                          [title]="functional"
+                          [disabled]="true">
+                  </active>
+                  <active *ngIf="(selectedGln$ | async)?.LegalType"
+                          [isActive]="(selectedGln$ | async)?.LegalType" 
+                          [title]="legal"
+                          [disabled]="true">
+                  </active>
+                  <active *ngIf="(selectedGln$ | async)?.DigitalType"
+                          [isActive]="(selectedGln$ | async)?.DigitalType" 
+                          [title]="digital"
+                          [disabled]="true">
+                  </active>
+                  <app-exclamation  *ngIf="(selectedGln$ | async)?.TrustActive"
+                                  [exclamationOnOff]="(selectedGln$ | async)?.TrustActive" 
+                                  [onText]="trustSuspended" 
+                                  [offText]="trustActive"
+                                  [disabled]="true">
+                  </app-exclamation>
+                  <publicPrivate [publicPrivate]="(selectedGln$ | async)?.Public" 
+                          [disabled]="true">
+                  </publicPrivate>
+                </div>
+                <div *ngIf="(selectedGln$ | async)?.AlternativeSystemIsTruth && !(selectedGln$ | async)?.Primary && (selectedGln$ | async)?.TierLevel === 5">
+                  <p class="map-link" (click)="viewDrawing()">View Drawing Location</p>
+                </div>
+                <div class="row" style="margin-top: 10px;" *ngIf="!(selectedGln$ | async)?.TrustActive">
+                    <div class="col-md-4">
+                        <app-exclamation [exclamationOnOff]="(selectedGln$ | async)?.TrustActive" 
+                                [onText]="trustSuspended" 
+                                [offText]="trustActive"
+                                [disabled]="true"
+                                [iconSize]=3>
+                        </app-exclamation>
+                    </div>
+                    <div class="col-md-8">
+                      <h5>{{ 'Suspension Reason - ' + (selectedGln$ | async)?.SuspensionReason}}</h5>
+                      <p class="text-muted">{{ 'Suspended by - ' + (selectedGln$ | async)?.SuspendedBy + ', '}}</p>
+                      <p class="text-muted">Suspended on - {{ (selectedGln$ | async)?.SuspensionDate | date: 'longDate' }}</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2" *ngIf="associateMode && (_glnAssociationService.gln$ | async).OwnGln !== (selectedGln$ | async).OwnGln">
+            <i style="padding-top: 0.5em" class="fa fa-handshake-o fa-3x change-cursor" aria-hidden="true" (click)="associatedGlnToGln$(selectedGln$)"></i>
+            <p>Associate</p>
+        </div>
+        <div class="col-md-2" *ngIf="editMode && (selectedGln$ | async)">
+          <div [routerLinkActive]="['link-active']" [routerLink]="['edit-gln/', (selectedGln$ | async).Id]">
+            <p class="link change-cursor" *ngIf="_startUpService.isAdmin">Edit</p>
+            <p class="link change-cursor" *ngIf="!_startUpService.isAdmin">View</p>
+          </div>
+          <div style="outline: none;" [routerLinkActive]="['link-active']" [routerLink]="['edit-gln/', (selectedGln$ | async).Id, 'assign-next-functional-gln', (selectedGln$ | async).AddressId]"
+              *ngIf="_startUpService.isAdmin && (selectedGln$ | async).Active">
+            <p class="link change-cursor">Assign New</p>
+          </div>     
+        </div>
+        <div class="col-md-2" *ngIf="assignParentMode && ((currentlyBeingEditedGln$ | async).OwnGln !== (selectedGln$ | async).OwnGln)">
+          <i style="padding-top: 0.5em" class="fa fa-user-plus fa-2x assign-parent change-cursor" aria-hidden="true" (click)="assignParent$(selectedGln$)"></i>
+          <p class="change-cursor">New Parent Gln</p>   
+        </div>
+    </div>
+
+    <br>
+    <div class="row">
+      <div class="col-md-3">
+        <form [formGroup]="searchForm">
+          <div class="row">
+            <div>
+              <p class="clear-search change-cursor" (click)="clearSearch()">Clear/New Search</p>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <h4>Status</h4>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row-filters">
+                  <app-check-box [isChecked]="queryForm.get('active').value"
+                                  [title]="activeFilterTitle"
+                                  [iconSize]="2"
+                                  (change)="onValueChange($event, 'active');">
+                  </app-check-box>      
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('inActive').value"
+                                [title]="inActiveFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'inActive');">
+                </app-check-box>      
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <h4>Public/Private</h4>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row-filters">
+                  <app-check-box [isChecked]="queryForm.get('public').value"
+                                  [title]="publicFilterTitle"
+                                  [iconSize]="2"
+                                  (change)="onValueChange($event, 'public');">
+                  </app-check-box>      
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('private').value"
+                                [title]="privateFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'private');">
+                </app-check-box>      
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <h4>Type filters</h4>
+          </div>
+          <br>
+          <div class="types-section" >
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" [checked]="matchAll" (click)="toggleMatchAllTypes()">
+              <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+              </label>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('physical').value"
+                                [title]="physicalFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'physical');">
+                </app-check-box>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('functional').value"
+                                [title]="functionalFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'functional');">
+                </app-check-box>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('digital').value"
+                                [title]="digitalFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'digital');">
+                </app-check-box> 
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('legal').value"
+                                [title]="legalFilterTitle"
+                                [iconSize]="2"
+                                (change)="onValueChange($event, 'legal');">
+                </app-check-box>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+              <h4>Tag filters</h4>
+            </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('tagTypeId').value === 0"
+                                [title]="noTagTypeFilters"
+                                [iconSize]="2"
+                                (change)="onTagValueChange($event, 0 );">
+                </app-check-box>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row" *ngFor="let t of (tagTypes$ | async)">
+            <div class="col-sm-12">
+              <div class="row-filters">
+                <app-check-box [isChecked]="queryForm.get('tagTypeId').value === t.GlnTagTypeId"
+                                [title]="t.Description"
+                                [iconSize]="2"
+                                (change)="onTagValueChange($event, t.GlnTagTypeId);">
+                </app-check-box>
+              </div>
+            </div>
+          </div>
+          <br>
+
+        </form>
+      </div>
+      <div class="col-md-9">
+        <div class="row" *ngIf="breadCrumbs$ | async">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" *ngFor="let bc of (breadCrumbs$ | async)"><a (click)="goToBreadcrumb(bc)"> {{ bc.FriendlyDescriptionPurpose }}</a></li>
+          </ol>
+        </div>
+        <form [formGroup]="queryForm">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                <div class="btn-group">
+                    <button class="btn btn-default btn-group fa fa-chevron-circle-left" (click)="previousPage()"></button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-group">{{ currentPage }}</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-group fa fa-chevron-circle-right" (click)="nextPage()" [disabled]="currentPage >= (glnQueryResult$ | async)?.TotalPages"></button>
+                </div>
+              </div>
+              <div *ngIf="(glnQueryResult$ | async)?.TotalPages > 1">
+                <p>{{ "Total pages - " + (glnQueryResult$ | async)?.TotalPages }}</p>
+              </div>
+              <p *ngIf="queryForm.get('searchTerm').value">{{ "Total GLN's - " + (glnQueryResult$ | async)?.Items.length}}</p> 
+            </div>
+            <div class="col-md-5">
+              <form [formGroup]="searchForm">
+
+                  <h4 style="padding-top: 0.5em;" *ngIf="queryForm.get('searchAll').value">Search all GLN's</h4>
+
+                  <div id="filter-row">
+                      <input class="form-control" style="width: 90%; margin: 3px;" 
+                              placeholder="Enter search criteria here" type="text"
+                              formControlName="searchTerm" name="search-term" 
+                              [value]="queryForm.get('searchTerm').value"
+                              autofocus/>
+                  </div>
+              </form>
+            </div>
+            <div class="col-md-5">
+
+              <div class="types-section" >
+                <div class="childrenswitch">
+                  <input type="checkbox" name="childrenswitch" class="childrenswitch-checkbox" id="childrenswitch" [checked]="searchAll" (click)="toggleChildrenOnlySearch()">
+                  <label class="childrenswitch-label" for="childrenswitch">
+                      <span class="childrenswitch-inner"></span>
+                      <span class="childrenswitch-switch"></span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+  
+          </div>
+          <div *ngFor="let g of (glnQueryResult$ | async)?.Items">
+            <div class="row">
+              <div class="col-md-12">
+                <div (click)="selectGln(g)">
+                  <p *ngIf="queryForm.get('searchTerm').value">{{ 'Parent - ' + g.ParentDescriptionPurpose + ', ' + g.ParentGln}}</p>                
+                  <gln-row-summary [gln]="g"></gln-row-summary>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+

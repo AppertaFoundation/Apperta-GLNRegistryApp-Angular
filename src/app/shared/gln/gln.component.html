@@ -1,0 +1,74 @@
+<!-- Global Location Number (GLN) Registry Angular Client Site
+Copyright (C) 2018  University Hospitals Plymouth NHS Trust
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+See LICENSE in the project root for license information. -->
+
+<div class="card" *ngIf="gln">
+  <div class="card-block" *ngIf="title">
+    <h4 class="card-title">{{ title }}</h4>
+  </div>
+  <hr *ngIf="title">
+  <div class="card-block">
+    <h4 class="card-text">{{ gln.FriendlyDescriptionPurpose }}</h4>
+    <h5 class="card-title">GLN: {{ gln.OwnGln }}</h5>
+    <p class="card-subtitle mb-2 text-muted" *ngIf="gln.TierLevel">{{ "Tier Level - " + gln.TierLevel}}</p>
+  </div>
+  <hr>
+
+  <div class="card-block" *ngIf="gln.AlternativeSystemIsTruth">
+    <p class="card-text">{{ (ipr$ | async)?.IprName + " Description" }}</p>
+    <p class="card-subtitle mb-2 text-muted">{{ gln.TruthDescriptionPurpose }}</p>
+    <br>
+    <hr style="color: #636c72;" *ngIf="gln.Function || gln.Department">
+    <br *ngIf="gln.Function || gln.Department">
+    <p class="card-subtitle mb-2 text-muted" *ngIf="gln.Function">{{ (ipr$ | async)?.IprName + " Function - " + gln.Function }}</p>
+    <p class="card-subtitle mb-2 text-muted" *ngIf="gln.Department">{{ (ipr$ | async)?.IprName +  " Department - " + (gln.Department | takeLastValue) }}</p>
+  </div>
+  <hr *ngIf="gln.AlternativeSystemIsTruth">
+  <div class="card-block">
+    <p class="card-text"> {{ "Parent GLN - " + gln.ParentGln }} </p>
+    <p class="card-subtitle mb-2 text-muted"> {{ gln.ParentDescriptionPurpose }} </p>
+  </div>
+  <hr>
+  <div class="card-block">
+    <div class="row">
+        <active [isActive]="gln.Active"
+                [disabled]="true">
+        </active>
+        <app-exclamation [exclamationOnOff]="gln.TrustActive" 
+                        [onText]="trustSuspended" 
+                        [offText]="trustNotSuspeneded"
+                        [disabled]="true">
+        </app-exclamation>
+        <publicPrivate [publicPrivate]="gln.Public" 
+                        [disabled]="true">
+        </publicPrivate>
+    </div>
+  </div>
+  <hr>
+  <div class="card-block">
+    <div class="row">
+      <active [isActive]="gln.PhysicalType" 
+              [title]="physical"
+              [disabled]="true">
+      </active>
+      <active [isActive]="gln.FunctionalType" 
+              [title]="functional"
+              [disabled]="true">
+      </active>
+      <active [isActive]="gln.LegalType" 
+              [title]="legal"
+              [disabled]="true">
+      </active>
+      <active [isActive]="gln.DigitalType" 
+              [title]="digital"
+              [disabled]="true">
+      </active>
+    </div>
+  </div>
+  <hr>
+  <br> 
+</div>
